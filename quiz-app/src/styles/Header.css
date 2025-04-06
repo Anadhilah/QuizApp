@@ -1,0 +1,61 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-bottom: 2px solid blue;
+    padding: 10px 20px;
+    
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+
+
+.logo img {
+    height: 50px; 
+    margin-right: 10px;
+    border-radius: 30px;
+}
+
+.logo h1{
+    font-size:30px;
+    color: blue;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 17px;
+    font-size: 20px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.start-quiz,
+.signup {
+    background-color: transparent;
+    border: 2px solid blue;
+    color: blue;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.start-quiz:hover,
+.signup:hover {
+    background-color: blue;
+    color: white;
+}
