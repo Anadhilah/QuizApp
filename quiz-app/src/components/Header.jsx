@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/Header.css'; 
 import logo from '../assets/logo.jpg';
+import { Link } from 'react-router-dom';
 
 
 const Header = () => {
@@ -19,7 +20,7 @@ const Header = () => {
             </nav>
             <div className="buttons">
                 <button className="start-quiz">Start Quiz</button>
-                <button className="signup">Sign Up</button>
+                <button className="signup"><Link to="/signup">Sign Up</Link></button>
             </div>
         </header>
     );

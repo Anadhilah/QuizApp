@@ -1,16 +1,18 @@
-
 import './styles/Header.css';
 import './styles/HeroSection.css';
+import './styles/SignUp.css'; 
+
+import './styles/QuizTopics.css';
 
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import UploadSection from './components/UploadSection';
-import QuizTopics from './components/QuizTopics';
+import QuizTopics from './components/QuizTopics'; 
 import StatsSection from './components/StatsSection';
 import Footer from './components/Footer';
-
-
+import SignUp from './components/SignUp';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -22,16 +24,21 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <Header />
-      <main className="container">
-        <HeroSection />
-        {/* <UploadSection selectedFile={selectedFile} handleFileChange={handleFileChange} />
-        <QuizTopics />
-        <StatsSection /> */}
-      </main>
-          <Footer/>
-    </div>
+    <Router>
+      <div className="container">
+        <Header />
+        <main className="container">
+          <Routes>
+            <Route path="/" element={<HeroSection />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/upload" element={<UploadSection />} />
+            <Route path="/topics" element={<QuizTopics />} /> 
+            
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

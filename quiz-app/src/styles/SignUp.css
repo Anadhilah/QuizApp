@@ -1,0 +1,59 @@
+.signup-container {
+    background: linear-gradient(to bottom right, #4e54c8, #8f94fb);
+    color: white;
+    max-width: 600px;
+   margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    margin-left: 450px;
+    margin-bottom: 20px;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-form input {
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.signup-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3b5998; 
+    color: white;
+    cursor: pointer;
+}
+
+.social-login {
+    margin-top: 20px;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.google, .github {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.google {
+    background-color: #db4437; 
+}
+
+.github {
+    background-color: #333; 
+}

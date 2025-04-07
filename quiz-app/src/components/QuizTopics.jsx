@@ -1,54 +1,94 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import '../styles/QuizTopics.css';
+import maths from '../assets/maths.png';
+import IT from '../assets/IT.png';
+import science from '../assets/science.png';
+import english from '../assets/english.png';
+import business from '../assets/bussiness.png';
 
-const topics = [
-  {
-    id: '1',
-    title: 'Science & Technology',
-    description: 'Test your knowledge of scientific discoveries and technological innovations',
-    imageUrl: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&q=80&w=1000',
-  },
-  {
-    id: '2',
-    title: 'History & Culture',
-    description: 'Explore historical events and cultural phenomena',
-    imageUrl: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&q=80&w=1000',
-  },
-  {
-    id: '3',
-    title: 'Arts & Literature',
-    description: 'Dive into the world of creative arts and literary masterpieces',
-    imageUrl: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&q=80&w=1000',
-  },
-];
+const QuizTopics = () => {
+    const [topics, setTopics] = useState([
+        { title: 'Maths Quiz', image: maths, category: '18' },
+        { title: 'Science Quiz', image: science, category: '17' },
+        { title: 'English Quiz', image: english, category: '9' },
+        { title: 'Business Quiz', image: business, category: '21' },
+        { title: 'IT Quiz', image: IT, category: '18' },
+        { title: 'Network Quiz', image: IT, category: '18' },
+    ]);
+  
+    const [newTopic, setNewTopic] = useState('');
+    const [newImage, setNewImage] = useState('');
+    const [questions, setQuestions] = useState([]);
+    const [selectedTopic, setSelectedTopic] = useState(null);
 
-function QuizTopics() {
-  return (
-    <div className="mb-12">
-      <h3 className="text-2xl font-bold text-gray-900 mb-8">Featured Topics</h3>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {topics.map((topic) => (
-          <div
-            key={topic.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
-          >
-            <div
-              className="h-48 bg-cover bg-center"
-              style={{ backgroundImage: `url(${topic.imageUrl})` }}
-            />
-            <div className="p-6">
-              <h4 className="text-xl font-semibold mb-2">{topic.title}</h4>
-              <p className="text-gray-600 mb-4">{topic.description}</p>
-              <button className="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium">
-                Start Quiz
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </button>
+    const handleAddTopic = (event) => {
+        event.preventDefault();
+        if (newTopic && newImage) {
+            setTopics([...topics, { title: newTopic, image: newImage }]);
+            setNewTopic('');
+            setNewImage('');
+        } else {
+            alert("Please fill in both fields.");
+        }
+    };
+
+    const fetchQuestions = async (category) => {
+        const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${category}&type=multiple`);
+        const data = await response.json();
+        setQuestions(data.results);
+    };
+
+    const handleTopicClick = (topic) => {
+        setSelectedTopic(topic);
+        fetchQuestions(topic.category);
+    };
+
+    return (
+        <div className="topics-container">
+            <h1>Browse Quiz Topics</h1>
+            <div className="topics-grid">
+                {topics.map((topic, index) => (
+                    <div className="topic-card" key={index} onClick={() => handleTopicClick(topic)}>
+                        <img src={topic.image} alt={topic.title} />
+                        <h2>{topic.title}</h2>
+                    </div>
+                ))}
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+            <form onSubmit={handleAddTopic} className="add-topic-form">
+                <input
+                    type="text"
+                    placeholder="Quiz Title"
+                    value={newTopic}
+                    onChange={(e) => setNewTopic(e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="Image URL"
+                    value={newImage}
+                    onChange={(e) => setNewImage(e.target.value)}
+                    required
+                />
+                <button type="submit">Add Quiz</button>
+            </form>
+            {selectedTopic && (
+                <div className="questions-container">
+                    <h2>{selectedTopic.title} Questions</h2>
+                    {questions.map((question, index) => (
+                        <div key={index} className="question-card">
+                            <p>{question.question}</p>
+                            <ul>
+                                {question.incorrect_answers.map((answer, idx) => (
+                                    <li key={idx}>{answer}</li>
+                                ))}
+                                <li>{question.correct_answer}</li>
+                            </ul>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
 
 export default QuizTopics;
