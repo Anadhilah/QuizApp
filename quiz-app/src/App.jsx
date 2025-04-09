@@ -10,7 +10,7 @@ import Header from './components/Header';
 import HeroSection from './components/HeroSection';
 import UploadSection from './components/UploadSection';
 import QuizTopics from './components/QuizTopics'; 
-import StatsSection from './components/StatsSection';
+import QuizCategories from './components/quizCategories';
 import Footer from './components/Footer';
 import SignUp from './components/SignUp';
 
@@ -33,12 +33,17 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/upload" element={<UploadSection />} />
             <Route path="/topics" element={<QuizTopics />} /> 
+           <Route path="/quiz-categories" element={<QuizCategories />}/>
             
           </Routes>
         </main>
         <Footer />
       </div>
     </Router>
+
+  // <div>
+  //   <QuizCategories/>
+  // </div>
   );
 }
 

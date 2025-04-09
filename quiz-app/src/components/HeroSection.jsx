@@ -1,5 +1,7 @@
 import React from 'react';
 import background from '../assets/background.jpg'
+import { Link } from 'react-router-dom';
+
 
 const HeroSection = () => {
     return (
@@ -8,7 +10,10 @@ const HeroSection = () => {
                 <div className="hero-content">
                     <h1 >ENHANCE YOUR KNOWLEDGE </h1>
                     <p>Dive into fun and challenging quizzes to expand your horizons.</p>
-                    <button className="get-started">Start Quizzling</button>
+                    <Link to="/quiz-categories">
+                        <button className="get-started">Start Quizzling</button>
+                 </Link>
+
                 </div>
             </div>
 
@@ -32,7 +37,10 @@ const HeroSection = () => {
              <div className="signup-section">
                 <h2>Join Us and Start Your Quizzing Journey</h2>
                 <p>Sign up now to access exciting quizzes and challenge your knowledge!</p>
-                <button className="signup-button">Sign Up</button>
+                <Link to="/signup">
+  <button className="signup-button">Sign Up</button>
+</Link>
+
             </div>
            
         </section>

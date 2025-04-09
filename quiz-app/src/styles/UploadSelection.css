@@ -9,11 +9,11 @@
 }
 
 .upload-container h1 {
-    color: #333; 
+    color:blue; 
 }
 
 .upload-container p {
-    color: #666; 
+    color: #3f3d3d; 
 }
 
 .upload-label {
@@ -23,6 +23,8 @@
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .upload-label:hover {

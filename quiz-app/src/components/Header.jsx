@@ -19,7 +19,8 @@ const Header = () => {
                 </ul>
             </nav>
             <div className="buttons">
-                <button className="start-quiz">Start Quiz</button>
+            <Link to="/quiz-categories">
+                 <button className="start-quiz">Start Quiz</button></Link>
                 <button className="signup"><Link to="/signup">Sign Up</Link></button>
             </div>
         </header>

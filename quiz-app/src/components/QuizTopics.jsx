@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/QuizTopics.css';
 import maths from '../assets/maths.png';
 import IT from '../assets/IT.png';
@@ -7,6 +8,7 @@ import english from '../assets/english.png';
 import business from '../assets/bussiness.png';
 
 const QuizTopics = () => {
+    const navigate = useNavigate();
     const [topics, setTopics] = useState([
         { title: 'Maths Quiz', image: maths, category: '18' },
         { title: 'Science Quiz', image: science, category: '17' },
@@ -18,8 +20,6 @@ const QuizTopics = () => {
   
     const [newTopic, setNewTopic] = useState('');
     const [newImage, setNewImage] = useState('');
-    const [questions, setQuestions] = useState([]);
-    const [selectedTopic, setSelectedTopic] = useState(null);
 
     const handleAddTopic = (event) => {
         event.preventDefault();
@@ -32,15 +32,8 @@ const QuizTopics = () => {
         }
     };
 
-    const fetchQuestions = async (category) => {
-        const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${category}&type=multiple`);
-        const data = await response.json();
-        setQuestions(data.results);
-    };
-
     const handleTopicClick = (topic) => {
-        setSelectedTopic(topic);
-        fetchQuestions(topic.category);
+        navigate('/quiz', { state: { title: topic.title, category: topic.category } });
     };
 
     return (
@@ -48,9 +41,10 @@ const QuizTopics = () => {
             <h1>Browse Quiz Topics</h1>
             <div className="topics-grid">
                 {topics.map((topic, index) => (
-                    <div className="topic-card" key={index} onClick={() => handleTopicClick(topic)}>
+                    <div className="topic-card" key={index}>
                         <img src={topic.image} alt={topic.title} />
                         <h2>{topic.title}</h2>
+                        <button onClick={() => handleTopicClick(topic)}>Start Quiz</button>
                     </div>
                 ))}
             </div>
@@ -71,22 +65,6 @@ const QuizTopics = () => {
                 />
                 <button type="submit">Add Quiz</button>
             </form>
-            {selectedTopic && (
-                <div className="questions-container">
-                    <h2>{selectedTopic.title} Questions</h2>
-                    {questions.map((question, index) => (
-                        <div key={index} className="question-card">
-                            <p>{question.question}</p>
-                            <ul>
-                                {question.incorrect_answers.map((answer, idx) => (
-                                    <li key={idx}>{answer}</li>
-                                ))}
-                                <li>{question.correct_answer}</li>
-                            </ul>
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
     );
 };
