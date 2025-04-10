@@ -5,6 +5,8 @@ import '../styles/UploadSelection.css';
 const UploadSection = () => {
     const [uploadedText, setUploadedText] = useState('');
     const [questions, setQuestions] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleFileChange = async (event) => {
         const files = event.target.files;
@@ -12,7 +14,10 @@ const UploadSection = () => {
             const file = files[0];
             const text = await extractTextFromFile(file);
             if (text) {
-                setUploadedText(text); 
+                setUploadedText(text);
+                setError('');
+            } else {
+                setError('Failed to extract text from the file.');
             }
         }
     };
@@ -24,21 +29,25 @@ const UploadSection = () => {
                 const fileType = file.type;
                 let text = '';
 
-                if (fileType === 'application/pdf') {
-                    const pdfData = new Uint8Array(e.target.result);
-                    const pdf = await getDocument({ data: pdfData }).promise;
+                try {
+                    if (fileType === 'application/pdf') {
+                        const pdfData = new Uint8Array(e.target.result);
+                        const pdf = await getDocument({ data: pdfData }).promise;
 
-                    for (let i = 1; i <= pdf.numPages; i++) {
-                        const page = await pdf.getPage(i);
-                        const content = await page.getTextContent();
-                        text += content.items.map(item => item.str).join(' ') + ' ';
+                        for (let i = 1; i <= pdf.numPages; i++) {
+                            const page = await pdf.getPage(i);
+                            const content = await page.getTextContent();
+                            text += content.items.map(item => item.str).join(' ') + ' ';
+                        }
+                    } else if (fileType === 'text/plain') {
+                        text = e.target.result;
+                    } else {
+                        setError('Unsupported file type. Please upload a PDF or TXT file.');
                     }
-                } else if (fileType === 'text/plain') {
-                    text = e.target.result; 
-                } else {
-                    alert('Unsupported file type. Please upload a PDF or TXT file.');
+                } catch (error) {
+                    setError('Error reading the file.');
                 }
-                resolve(text); 
+                resolve(text);
             };
             reader.readAsArrayBuffer(file);
         });
@@ -68,27 +77,35 @@ const UploadSection = () => {
             }
         });
 
-        return questions.filter(q => q.question); 
+        return questions.filter(q => q.question);
     };
 
     const generateOptions = (sentence) => {
         const words = sentence.split(' ');
         const options = [
-            sentence, 
-            `${words[0]} example`, 
-            `${words[1]} alternative`, 
-            `${words[2]} distraction`, 
+            sentence,
+            `${words[0]} example`,
+            `${words[1]} alternative`,
+            `${words[2]} distraction`,
         ];
-        return options.sort(() => Math.random() - 0.5); 
+        return options.sort(() => Math.random() - 0.5);
     };
 
     const handleGenerateQuestions = () => {
         if (uploadedText) {
+            setLoading(true); // Start loading
             const generatedQuestions = generateQuestions(uploadedText);
             setQuestions(generatedQuestions);
+            setLoading(false); // Stop loading
         } else {
             alert('Please upload a document first.');
         }
+    };
+
+    const handleClear = () => {
+        setUploadedText('');
+        setQuestions([]);
+        setError('');
     };
 
     return (
@@ -99,15 +116,26 @@ const UploadSection = () => {
                 <input type="file" accept=".pdf, .txt" onChange={handleFileChange} />
                 <span className="upload-icon">📤 Upload PDF or TXT</span>
             </label>
-            <button onClick={handleGenerateQuestions} disabled={!uploadedText}>
-                Generate Questions
+            <button onClick={handleGenerateQuestions} disabled={!uploadedText || loading}>
+                {loading ? 'Generating...' : 'Generate Questions'}
             </button>
+            <button onClick={handleClear} disabled={!uploadedText}>
+                Clear
+            </button>
+            {error && <p className="error-message">{error}</p>}
             {questions.length > 0 && (
                 <div className="questions-container">
                     <h3>Generated Questions:</h3>
                     <ul>
                         {questions.map((q, index) => (
-                            <li key={index}>{q.question}</li>
+                            <li key={index}>
+                                {q.question}
+                                <ul>
+                                    {q.options.map((option, idx) => (
+                                        <li key={idx}>{option}</li>
+                                    ))}
+                                </ul>
+                            </li>
                         ))}
                     </ul>
                 </div>

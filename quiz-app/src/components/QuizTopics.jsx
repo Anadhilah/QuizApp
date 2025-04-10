@@ -44,7 +44,7 @@ const QuizTopics = () => {
                     <div className="topic-card" key={index}>
                         <img src={topic.image} alt={topic.title} />
                         <h2>{topic.title}</h2>
-                        <button onClick={() => handleTopicClick(topic)}>Start Quiz</button>
+                        
                     </div>
                 ))}
             </div>

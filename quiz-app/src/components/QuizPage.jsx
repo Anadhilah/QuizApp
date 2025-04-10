@@ -4,7 +4,7 @@ import '../styles/QuizPage.css';
 
 const QuizPage = () => {
     const location = useLocation();
-    const { title, category } = location.state || {}; // Safely access state
+    const { title, category } = location.state || {}; 
 
     if (!title || !category) {
         return <div>Error: Quiz details not found.</div>;

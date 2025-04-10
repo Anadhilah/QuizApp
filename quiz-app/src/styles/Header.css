@@ -4,29 +4,23 @@
     justify-content: space-between;
     background-color: white;
     border-bottom: 2px solid blue;
-    margin: 0px;
-    padding: 0px;
-    
-    
+    padding: 10px 20px;
+    flex-wrap: wrap;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    margin: 0px;
-    padding: 0px;
 }
 
-
-
 .logo img {
-    height: 30px; 
+    height: 30px;
     margin-right: 10px;
     border-radius: 30px;
 }
 
-.logo h1{
-    font-size:30px;
+.logo h1 {
+    font-size: 24px;
     color: blue;
 }
 
@@ -34,7 +28,9 @@
     list-style: none;
     display: flex;
     gap: 17px;
-    font-size: 20px;
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
 }
 
 .nav a {
@@ -48,6 +44,7 @@
     gap: 10px;
 }
 
+/* Button styling */
 .start-quiz,
 .signup {
     background-color: transparent;
@@ -56,10 +53,53 @@
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 5px;
+    font-size: 16px;
 }
 
 .start-quiz:hover,
 .signup:hover {
     background-color: blue;
     color: white;
+}
+
+/* === RESPONSIVE STYLES === */
+
+@media screen and (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav ul {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .buttons {
+        margin-top: 10px;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .start-quiz,
+    .signup {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo h1 {
+        font-size: 20px;
+    }
+
+    .nav ul {
+        font-size: 16px;
+    }
+
+    .start-quiz,
+    .signup {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
 }
